@@ -15,7 +15,6 @@ const addPhotoToPage = (photo) => {
   img.src = photo.urls.regular
   img.alt = photo.alt_description
   img.title = photo.alt_description
-  img.href
   link.appendChild(img)
   imageContainer.appendChild(link)
 }
