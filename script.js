@@ -1,11 +1,13 @@
-const ACCESS_KEY = 'S60S8cNmuvOSWKM5atvn8JLhila4FDGUg0MX_Hd5VH0'
+const ACCESS_KEY = getAccessKey()
 const pictureCount = 30
 const apiUrl = `https://api.unsplash.com/photos/random?client_id=${ACCESS_KEY}&count=${pictureCount}`
 
 const imageContainer = document.getElementById('image-container')
 const loader = document.getElementById('loader')
 
-let photoUrls = []
+let photoUrls = [];
+let isScrolled = false;
+let ready = false;
 
 const addPhotoToPage = (photo) => {
   let link = document.createElement('a')
@@ -31,8 +33,6 @@ const getPhotos = async () => {
     console.log(error)
   }
 }
-
-let isScrolled=false;
 
 const infiniteScroll = () => {
   // End of the document reached?
