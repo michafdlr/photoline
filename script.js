@@ -8,8 +8,10 @@ const loader = document.getElementById('loader')
 let photoUrls = [];
 let isScrolled = false;
 let ready = false;
+let loadedImages = 0;
 
 const addPhotoToPage = (photo) => {
+  loadedImages++
   let link = document.createElement('a')
   let img = document.createElement('img')
   link.href = photo.links.html
@@ -19,6 +21,9 @@ const addPhotoToPage = (photo) => {
   img.title = photo.alt_description
   link.appendChild(img)
   imageContainer.appendChild(link)
+  if (loadedImages > 0 && loadedImages%30 === 0) {
+    ready = true
+  }
 }
 
 const getPhotos = async () => {
@@ -28,7 +33,6 @@ const getPhotos = async () => {
     await photoUrls.map(photo => {
       addPhotoToPage(photo)
     })
-
   } catch (error) {
     console.log(error)
   }
@@ -36,14 +40,9 @@ const getPhotos = async () => {
 
 const infiniteScroll = () => {
   // End of the document reached?
-  if (imageContainer.scrollHeight>4000 && window.scrollY > (imageContainer.scrollHeight - 4000) && !isScrolled) {
-    // Set “isScrolled” to “true” to prevent further execution
-    isScrolled = true;
+  if (imageContainer.scrollHeight>4000 && window.scrollY > (imageContainer.scrollHeight - 4000) && ready) {
+    ready = false;
     getPhotos()
-    // After 1 second the “isScrolled” will be set to “false” to allow the code inside the “if” statement to be executed again
-    setTimeout(() => {
-    isScrolled = false;
-    }, 2000);
   }
 }
 
